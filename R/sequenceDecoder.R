@@ -83,7 +83,7 @@ sequenceDecoder <- function(sequence.matrix,
   sqrt(sum((vec1 - vec2)^2))
 }
 
-#' @importFrom keras array_reshape
+#' @importFrom reticulate array_reshape
 #' @importFrom utils data
 .propertyDecoder <- function(sequence.matrix,
                              aa.method.to.use,
@@ -131,7 +131,7 @@ sequenceDecoder <- function(sequence.matrix,
 
 #TODO Add testthat 
 
-#' @importFrom keras array_reshape
+#' @importFrom reticulate array_reshape
 .onehotDecoder <- function(sequence.matrix,
                            sequence.dictionary,
                            padding.symbol,

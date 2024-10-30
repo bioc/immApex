@@ -30,7 +30,7 @@
 #' Median Absolute Deviation ("mads")
 #' @param padding.symbol Symbol to use for padding at the end of sequences
 #' @param verbose Print messages corresponding to the processing step
-#' @importFrom keras array_reshape
+#' @importFrom reticulate array_reshape
 #' @importFrom utils data
 #' 
 #' @export

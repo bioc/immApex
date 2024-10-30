@@ -45,12 +45,11 @@
 #' (default are all amino acids)
 #' @param verbose Print messages corresponding to the processing step
 #' 
-#' @importFrom keras layer_dense layer_lambda  keras_model compile 
-#' fit k_sum layer_input loss_binary_crossentropy optimizer_adadelta 
+#' @importFrom keras3 layer_dense layer_lambda  keras_model compile 
+#' fit layer_input loss_binary_crossentropy optimizer_adadelta 
 #' optimizer_adagrad optimizer_adam optimizer_adamax optimizer_ftrl 
-#' optimizer_nadam optimizer_rmsprop optimizer_sgd backend 
-#' callback_early_stopping layer_normalization k_exp k_int_shape 
-#' k_mean k_random_normal k_shape k_square
+#' optimizer_nadam optimizer_rmsprop optimizer_sgd  
+#' callback_early_stopping layer_normalization 
 #' @importFrom magrittr %>%
 #' @importFrom stats predict runif
 #' @importFrom tensorflow tf
@@ -85,7 +84,7 @@ variationalSequences <- function(input.sequences,
     tensorflow::tf$compat$v1$disable_eager_execution()
   }
   
-  es <- keras::callback_early_stopping(
+  es <- keras3::callback_early_stopping(
     monitor = "val_loss",
     min_delta = 0,
     patience = epochs/5,
@@ -93,16 +92,15 @@ variationalSequences <- function(input.sequences,
     mode = "min")
   
   optimizer.to.use <- switch(optimizer,
-                             "adadelta" = optimizer_adadelta,
-                             "adagrad" = optimizer_adagrad,
-                             "adam" = optimizer_adam,
-                             "adamax" = optimizer_adamax,
-                             "ftrl" = optimizer_ftrl,
-                             "nadam" = optimizer_nadam,
-                             "rmsprop" = optimizer_rmsprop,
-                             "sgd" = optimizer_sgd, 
+                             "adadelta" = optimizer_adadelta(learning_rate = learning.rate),
+                             "adagrad" = optimizer_adagrad(learning_rate = learning.rate),
+                             "adam" = optimizer_adam(learning_rate = learning.rate),
+                             "adamax" = optimizer_adamax(learning_rate = learning.rate),
+                             "ftrl" = optimizer_ftrl(learning_rate = learning.rate),
+                             "nadam" = optimizer_nadam(learning_rate = learning.rate),
+                             "rmsprop" = optimizer_rmsprop(learning_rate = learning.rate),
+                             "sgd" = optimizer_sgd(learning_rate = learning.rate),
                              stop("Please select a compatible optimizer function in the Keras R implementation."))
-  K <- keras::backend()
   
   if(verbose) {
     message("Converting to matrix....")
@@ -125,8 +123,8 @@ variationalSequences <- function(input.sequences,
           z_mean <- x[[3]]
           z_log_var <- x[[4]]
           xent_loss <- loss_binary_crossentropy(x_input, x_decoded_mean) * original_dim
-          kl_loss <- -0.5 * k_mean(1 + z_log_var - k_square(z_mean) - k_exp(z_log_var), axis = -1L)
-          k_mean(xent_loss + kl_loss)
+          kl_loss <- -0.5 * tf$reduce_mean(1 + z_log_var - tf$square(z_mean) - tf$exp(z_log_var), axis = -1L)
+          tf$reduce_mean(xent_loss + kl_loss)
         })
   }
   original_dim <- ncol(sequence.matrix)
@@ -150,10 +148,10 @@ variationalSequences <- function(input.sequences,
   z <- layer_lambda(f = function(args) {
         z_mean <- args[[1]]
         z_log_var <- args[[2]]
-        batch <- k_shape(z_mean)[1]
-        dim <- k_int_shape(z_mean)[2]
-        epsilon <- k_random_normal(shape = c(batch, dim), mean = 0., stddev = epsilon.std)
-        z_mean + k_exp(z_log_var / 2) * epsilon
+        batch <- tf$shape(z_mean)[1]
+        dim <- tf$shape(z_mean)[2]
+        epsilon <- tf$random$normal(shape = c(batch, dim), mean = 0., stddev = epsilon.std)
+        z_mean + tf$exp(z_log_var / 2) * epsilon
       }, output_shape = c(latent.dim))(list(z_mean, z_log_var))
       
   # Decoder
@@ -181,11 +179,11 @@ variationalSequences <- function(input.sequences,
       
   # Dummy loss function
   dummy_loss <- function(y_true, y_pred) {
-    k_mean(y_pred)
+    tf$reduce_mean(y_pred)
   }
       
   # Compile the model
-  vae_with_loss %>% compile(optimizer = optimizer_adam(learning_rate = learning.rate), loss = dummy_loss)
+  vae_with_loss %>% compile(optimizer = optimizer.to.use, loss = dummy_loss)
   
   if(verbose) {    
     message("Fitting Model....")

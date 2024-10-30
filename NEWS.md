@@ -1,3 +1,9 @@
+# immApex VERSION 0.99.6
+
+## UNDERLYING CHANGES
+* Fix issue with optimizer call in ```variationalSequences()```
+* Move package to keras3
+
 # immApex VERSION 0.99.5
 
 ## UNDERLYING CHANGES

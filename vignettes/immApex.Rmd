@@ -23,9 +23,9 @@ set.seed(42)
 
 # Introduction
 
-Single-cell sequencing is an emerging technology in the field of immunology and oncology that allows researchers to couple RNA quantification and other modalities, like immune cell receptor profiling at the level of an individual cell. A number of workflows and software packages have been created to process and analyze single-cell transcriptomic data. These packages allow users to take the vast dimensionality of the data generated in single-cell-based experiments and distill the data into novel insights. Some of the packages within the R environment that offer single-cell immune profiling support include [scReperotire](https://github.com/ncborcherding/scRepertoire), [immunarch](https://github.com/immunomind/immunarch), and [immcantation](https://immcantation.readthedocs.io/en/stable/). None of these packages offer support for deep-learning models for immune repertoire profiling. 
+Single-cell sequencing is an emerging technology in the field of immunology and oncology that allows researchers to couple RNA quantification and other modalities, like immune cell receptor profiling at the level of an individual cell. A number of workflows and software packages have been created to process and analyze single-cell transcriptomic data. These packages allow users to take the vast dimensionality of the data generated in single-cell-based experiments and distill the data into novel insights. Some of the packages within the R environment that offer single-cell immune profiling support include [scRepertoire](https://github.com/ncborcherding/scRepertoire), [immunarch](https://github.com/immunomind/immunarch), and [immcantation](https://immcantation.readthedocs.io/en/stable/). None of these packages offer support for deep-learning models for immune repertoire profiling. 
 
-**immApex** is meant to serve as an API for deep-learning models based on immune receptor sequencing. These functions extract or generate amino acid or nucleotide sequences and prepare them for deep learning tasks through [Keras](https://tensorflow.rstudio.com/guides/keras/basics). **immApex** is the underlying structure for the BCR models in [Ibex](https://github.com/ncborcherding/Ibex) and TCR models in [Trex](https://github.com/ncborcherding/Trex). It should be noted that the tools here are created for immune receptor sequences; they will work more generally for nucleotide or amino acid sequences. The package itself supports AIRR, Adaptive, and 10x formats and interacts with the **scRepertoire** R package.
+**immApex** is meant to serve as an API for deep-learning models based on immune receptor sequencing. These functions extract or generate amino acid or nucleotide sequences and prepare them for deep learning tasks through [Keras3](https://tensorflow.rstudio.com/guides/keras/basics). **immApex** is the underlying structure for the BCR models in [Ibex](https://github.com/ncborcherding/Ibex) and TCR models in [Trex](https://github.com/ncborcherding/Trex). It should be noted that the tools here are created for immune receptor sequences; they will work more generally for nucleotide or amino acid sequences. The package itself supports AIRR, Adaptive, and 10x formats and interacts with the **scRepertoire** R package.
 
 More information is available at the [immApex GitHub Repo](https://github.com/ncborcherding/immApex).
 
@@ -33,7 +33,7 @@ More information is available at the [immApex GitHub Repo](https://github.com/nc
 
 ```{r}
 suppressMessages(library(immApex))
-suppressMessages(library(keras))
+suppressMessages(library(keras3))
 suppressMessages(library(ggplot2))
 suppressMessages(library(viridis))
 suppressMessages(library(magrittr))
@@ -206,7 +206,7 @@ Adaptive_example[200:210,c("CDR1_IMGT", "CDR2_IMGT")]
 
 ## onehotEncoder
 
-One hot encoding of amino acid or nucleotide sequences is a common method for transforming sequences into numeric matrices compatible with Keras (or other workflows).
+One hot encoding of amino acid or nucleotide sequences is a common method for transforming sequences into numeric matrices compatible with Keras3 (or other workflows).
 
 Parameters for ```onehotEncoder()```
 
@@ -440,7 +440,7 @@ decoded <- encoded %>%
       
 # Autoencoder Model
 autoencoder <- keras_model(input_seq, decoded)
-autoencoder %>% keras::compile(optimizer = optimizer_adam(learning_rate = 0.0001),
+autoencoder %>% keras3::compile(optimizer = optimizer_adam(learning_rate = 0.0001),
                                    loss = "mse")
       
 # Train the model
@@ -484,7 +484,7 @@ classifier.matrix <- onehotEncoder(input.sequences =  c(class1.sequences, class2
                                    convert.to.matrix = TRUE)
 ```
 
-Next, we will define and train the Keras classifier model using artificial sequences. We will use a simple convolutional neural network with 2 layers and then a single neuron that will classify the sequences into class 1 or class 2 (here, the labels are 0 and 1).
+Next, we will define and train the Keras3 classifier model using artificial sequences. We will use a simple convolutional neural network with 2 layers and then a single neuron that will classify the sequences into class 1 or class 2 (here, the labels are 0 and 1).
 
 ```{r tidy = FALSE}
 #Input shape will be 1D as we are using a matrix

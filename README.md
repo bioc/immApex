@@ -19,16 +19,16 @@ R package to assist in the interaction of immune receptor and gene expression se
 immApex has been tested on R versions >= 4.0. Please consult the DESCRIPTION file for more details on required R packages - it is specifically designed to work with single-cell objects that have 
 had BCR/TCRs added using [scRepertoire](https://github.com/ncborcherding/scRepertoire). immApex has been tested on OS X and Linux platforms.
 
-**keras** is necessary for immApex (this includes the set up of the tensorflow environment in R):
+**keras3** is necessary for immApex (this includes the set up of the tensorflow environment in R):
 
 ```r
-##Install keras
-install.packages("keras")
+##Install keras3
+install.packages("keras3")
 
 ##Setting up Tensor Flow
 library(reticulate)
 use_condaenv(condaenv = "r-reticulate", required = TRUE)
-library(keras)
+library(keras3)
 install_keras()
 ```
 
@@ -38,6 +38,15 @@ To run immApex, open R and install immApex from github:
 
 ```r
 devtools::install_github("ncborcherding/immApex")
+```
+
+or via Bioconductor with the 3.20 release
+
+```r
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("infinityFlow")
 ```
 
 ### IMGT usage
