@@ -1,5 +1,5 @@
 Package: immApex
-Title: Tools for Adaptive Immune Receptor Sequence-Based Keras Modeling
+Title: Tools for Adaptive Immune Receptor Sequence-Based Keras3 Modeling
 Version: 1.0.1
 Date: 2024-10-30
 Authors@R: c(

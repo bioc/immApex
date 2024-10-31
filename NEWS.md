@@ -1,8 +1,9 @@
-# immApex VERSION 0.99.6
+# immApex VERSION 1.0.1
 
 ## UNDERLYING CHANGES
 * Fix issue with optimizer call in ```variationalSequences()```
 * Move package to keras3
+* Version Bump to be consistent with Bioconductor release
 
 # immApex VERSION 0.99.5
 
