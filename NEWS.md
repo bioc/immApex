@@ -1,3 +1,8 @@
+# immApex VERSION 1.0.2
+
+## UNDERLYING CHANGES
+* Vignette includes eval of keras installation for certain chunks
+
 # immApex VERSION 1.0.1
 
 ## UNDERLYING CHANGES

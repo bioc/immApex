@@ -98,7 +98,7 @@ Parameters for ```variationalSequences()``
 *  **disable.eager.execution** Disable the eager execution parameter for tensorflow.
 *  **sequence.dictionary** The letters to use in sequence mutation (default are all amino acids)
 
-```{r}
+```{r tidy = FALSE, eval = reticulate::py_module_available("keras")}
 variational.sequences <- variationalSequences(sequences, 
                                               encoder = "onehotEncoder",
                                               number.of.sequences = 100,
@@ -390,7 +390,7 @@ The steps to train the model include:
 3. Forming the autoencoder structure - encoder and decoder
 4. Fitting the model
 
-```{r tidy = FALSE}
+```{r tidy = FALSE, eval = reticulate::py_module_available("keras")}
 #Sampling to make Training/Validation Data Cohorts
 set.seed(42)
 num_sequences <- nrow(sequence.matrix)
@@ -486,7 +486,7 @@ classifier.matrix <- onehotEncoder(input.sequences =  c(class1.sequences, class2
 
 Next, we will define and train the Keras3 classifier model using artificial sequences. We will use a simple convolutional neural network with 2 layers and then a single neuron that will classify the sequences into class 1 or class 2 (here, the labels are 0 and 1).
 
-```{r tidy = FALSE}
+```{r tidy = FALSE, eval = reticulate::py_module_available("keras")}
 #Input shape will be 1D as we are using a matrix
 input.shape <- dim(classifier.matrix)[2]
 
