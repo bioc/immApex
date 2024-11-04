@@ -1,3 +1,9 @@
+# immApex VERSION 1.0.3
+
+## UNDERLYING CHANGES
+* Drop evaluation of variationalSequences() example
+
+
 # immApex VERSION 1.0.2
 
 ## UNDERLYING CHANGES
