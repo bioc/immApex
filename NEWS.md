@@ -1,3 +1,9 @@
+# immApex VERSION 1.0.4
+
+## UNDERLYING CHANGES
+* Optional testthat variationalSequences() evaulate presence of Keras
+
+
 # immApex VERSION 1.0.3
 
 ## UNDERLYING CHANGES

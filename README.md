@@ -46,7 +46,7 @@ or via Bioconductor with the 3.20 release
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
-BiocManager::install("infinityFlow")
+BiocManager::install("immApex")
 ```
 
 ### IMGT usage
