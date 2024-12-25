@@ -185,7 +185,8 @@ variationalSequences <- function(input.sequences,
   }
       
   # Compile the model
-  vae_with_loss %>% compile(optimizer = optimizer.to.use, loss = dummy_loss)
+  vae_with_loss %>% keras3::compile(optimizer = optimizer.to.use, 
+                                    loss = dummy_loss)
   
   if(verbose) {    
     message("Fitting Model....")

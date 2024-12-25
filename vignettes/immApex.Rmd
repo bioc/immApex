@@ -4,7 +4,7 @@ author:
 - name: Nick Borcherding
   email: ncborch@gmail.com
   affiliation: Washington University in St. Louis, School of Medicine, St. Louis, MO, USA
-date: "October 17, 2024"
+date: "December 24th, 2024"
 output:
   BiocStyle::html_document:
     toc_float: true
@@ -215,7 +215,7 @@ Parameters for ```onehotEncoder()```
 * **convert.to.matrix** Return a matrix (**TRUE**) or a 3D array (**FALSE**)
 * **sequence.dictionary** The letters to use in encoding (default are all amino acids + NA value)
 
-```{r tidy = FALSE}
+```{r tidy = FALSE, eval = reticulate::py_module_available("numpy")}
 sequence.matrix <- onehotEncoder(input.sequences =  c(sequences, mutated.sequences), 
                                  convert.to.matrix = TRUE)
 head(sequence.matrix[,1:20])
@@ -241,7 +241,7 @@ These properties are largely based on dimensional reduction strategies, but it i
 * zScales - [citation](https://pubmed.ncbi.nlm.nih.gov/9651153/)
 
 
-```{r tidy = FALSE}
+```{r tidy = FALSE, eval = reticulate::py_module_available("numpy")}
 property.matrix <- propertyEncoder(input.sequences =  c(sequences, mutated.sequences), 
                                    method.to.use = "FASGAI",
                                    convert.to.matrix = TRUE)
@@ -251,7 +251,7 @@ head(property.matrix[,1:20])
 
 ```propertyEncoder()``` also allows us to use multiple approaches simultaneously by setting **method.to.use** as a vector.
 
-```{r tidy = FALSE}
+```{r tidy = FALSE, eval = reticulate::py_module_available("numpy")}
 mulit.property.matrix <- propertyEncoder(input.sequences =  c(sequences, mutated.sequences), 
                                          method.to.use = c("atchleyFactors", "kideraFactors"),
                                          convert.to.matrix = TRUE)
@@ -297,7 +297,7 @@ Parameters for ```tokenizeSequences()```
 * **max.length** Additional length to pad, NULL will pad sequences to the max length of input.sequences
 * **convert.to.matrix** Return a matrix (**TRUE**) or a vector (**FALSE**)
 
-```{r tidy = FALSE}
+```{r tidy = FALSE, eval = reticulate::py_module_available("numpy")}
 token.matrix <- tokenizeSequences(input.sequences =  c(sequences, mutated.sequences), 
                                   add.startstop = TRUE,
                                   start.token = "!",
@@ -352,7 +352,7 @@ Parameters for ```sequenceDecoder()```
 * **aa.method.to.use** The method or approach to use for the conversion corresponding to the input to ```propertyEncoder()```. This will be ignored if **encoder** = "onehotEncoder"
 * **call.threshold** The relative strictness of sequence calling with higher values being more stringent
 
-```{r}
+```{r tidy = FALSE, eval = reticulate::py_module_available("numpy")}
 property.matrix <- propertyEncoder(input.sequences =  c(sequences, mutated.sequences), 
                                    method.to.use = "FASGAI",
                                    convert.to.matrix = TRUE)
@@ -367,7 +367,7 @@ head(property.sequences)
 
 A similar approach can be applied when using matrices or arrays derived from one-hot encoding: 
 
-```{r}
+```{r eval = reticulate::py_module_available("numpy")}
 sequence.matrix <- onehotEncoder(input.sequences =  c(sequences, mutated.sequences), 
                                  convert.to.matrix = TRUE)
 
@@ -465,7 +465,7 @@ We can also build classifiers directly using deep or shallow neural networks. Bu
 
 The first step is to generate distinct types of sequences using ```generateSequences()``` and ```onehotEncoder()``` to prepare the data for the model.
 
-```{r tidy = FALSE}
+```{r tidy = FALSE, eval = reticulate::py_module_available("numpy")}
 class1.sequences <- generateSequences(prefix.motif = "CAS",
                                       suffix.motif = "YF",
                                       number.of.sequences = 10000,
