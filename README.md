@@ -12,7 +12,7 @@ API for single-cell immune repertoire deep learning models
 
 Single-cell sequencing is now a integral tool in the field of immunology and oncology that allows researchers to couple RNA quantification and other modalities, 
 like immune cell receptor profiling at the level of an individual cell. Towards this end, we developed the [scRepertoire](https://github.com/ncborcherding/scRepertoire) 
-R package to assist in the interaction of immune receptor and gene expression sequencing. Further we developed models for embedding single-cell TCR sequences ([Trex](https://github.com/ncborcherding/Trex)) and BCR sequences ([Ibex](https://github.com/ncborcherding/Ibex)) using convolutional neural networks. immApex is the API for preparing the sequence data for the current and future models in the scRepertoire ecosystem. 
+R package to assist in the interaction of immune receptor and gene expression sequencing. Further we developed models for embedding single-cell TCR sequences ([Trex](https://github.com/ncborcherding/Trex)) and BCR sequences ([Ibex](https://github.com/ncborcherding/Ibex)) using convolutional neural networks. **immApex** is the API for preparing the sequence data for the current and future models in the scRepertoire ecosystem. 
 
 ## System requirements 
 

@@ -98,7 +98,7 @@ Parameters for ```variationalSequences()``
 *  **disable.eager.execution** Disable the eager execution parameter for tensorflow.
 *  **sequence.dictionary** The letters to use in sequence mutation (default are all amino acids)
 
-```{r tidy = FALSE, eval = reticulate::py_module_available("keras")}
+```{r tidy = FALSE, eval = reticulate::py_module_available("keras") && reticulate::py_module_available("numpy")}
 variational.sequences <- variationalSequences(sequences, 
                                               encoder = "onehotEncoder",
                                               number.of.sequences = 100,

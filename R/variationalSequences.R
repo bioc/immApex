@@ -4,19 +4,19 @@
 #' autoencoder (VAE) and perturbation of the probability distributions.
 #' 
 #' @examples
-#' \dontrun{
 #' sequences <- generateSequences(prefix.motif = "CAS",
 #'                                suffix.motif = "YF",
 #'                                number.of.sequences = 100,
 #'                                min.length = 8,
 #'                                max.length = 16)
-#'                                 
+#' 
+#' if(reticulate::py_module_available("keras")) {                                 
 #' new.sequences <- variationalSequences(sequences, 
 #'                                       encoder = "onehotEncoder",
 #'                                       encoder.hidden.dim = c(256, 128),
 #'                                       latent.dim = 16,
 #'                                       batch.size = 16)
-#' } 
+#'}
 #' 
 #' @param input.sequences The amino acid or nucleotide sequences to use
 #' @param encoder.function The method to prepare the sequencing information - 
