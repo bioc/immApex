@@ -1,14 +1,19 @@
+# immApex VERSION 1.0.5
+
+## UNDERLYING CHANGES
+* ```getIMGT()``` checks for availability of IMGT website
+* Expanded Unit Tests
+* Unit Tests and Vignette now evaluate for proper python installation overall
+
 # immApex VERSION 1.0.4
 
 ## UNDERLYING CHANGES
 * Optional testthat variationalSequences() evaulate presence of Keras
 
-
 # immApex VERSION 1.0.3
 
 ## UNDERLYING CHANGES
 * Drop evaluation of variationalSequences() example
-
 
 # immApex VERSION 1.0.2
 

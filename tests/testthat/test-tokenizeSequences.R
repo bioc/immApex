@@ -1,32 +1,43 @@
 # test script for tokenizeSequences.R - testcases are NOT comprehensive!
 
-test_that("tokenizeSequences works", {
-  
-  sequences <- getdata("generateSequences", "generateSequences_T1")
+# 1. Check module availability once.
+keras_installed <- reticulate::py_module_available("keras")
+numpy_installed <- reticulate::py_module_available("numpy")
 
-  token.default <- tokenizeSequences(sequences)
+# 2. If not installed, skip everything:
+if (!keras_installed || !numpy_installed) {
+  test_that("Skipping generateSequences tests", {
+    skip("Required Python modules (Keras, NumPy) are not available.")
+  })
+} else {
   
-  expect_equal(
-    token.default,
-    getdata("tokenizeSequences", "tokenizeSequences_default")
-  )
+  test_that("tokenizeSequences works", {
+    
+    sequences <- getdata("generateSequences", "generateSequences_T1")
   
-  token.noAdded <- tokenizeSequences(sequences,
-                                      add.startstop = FALSE)
-  
-  expect_equal(
-    token.noAdded,
-    getdata("tokenizeSequences", "tokenizeSequences_noStartStop")
-  )
-  
-  token.matrix <- tokenizeSequences(sequences,
-                                     convert.to.matrix = FALSE)
-  
-  expect_equal(
-    token.matrix,
-    getdata("tokenizeSequences", "tokenizeSequences_matrix")
-  )
-  
-  
-})
-
+    token.default <- tokenizeSequences(sequences)
+    
+    expect_equal(
+      token.default,
+      getdata("tokenizeSequences", "tokenizeSequences_default")
+    )
+    
+    token.noAdded <- tokenizeSequences(sequences,
+                                        add.startstop = FALSE)
+    
+    expect_equal(
+      token.noAdded,
+      getdata("tokenizeSequences", "tokenizeSequences_noStartStop")
+    )
+    
+    token.matrix <- tokenizeSequences(sequences,
+                                       convert.to.matrix = FALSE)
+    
+    expect_equal(
+      token.matrix,
+      getdata("tokenizeSequences", "tokenizeSequences_matrix")
+    )
+    
+    
+  })
+}

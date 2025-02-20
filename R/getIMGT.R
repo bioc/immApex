@@ -80,7 +80,9 @@ getIMGT <- function(species = "human",
   }
   
   if (!success) {
-    stop("Failed to retrieve data after ", max.retries, " attempts.")
+    warning("Failed to retrieve data after ", max.retries, 
+            " attempts. The website may be down or unavailable.")
+    return(NULL)  
   }
   
   webpage <- httr::content(response, as = "text")

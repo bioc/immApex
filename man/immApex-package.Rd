@@ -11,8 +11,8 @@ A set of tools to build tensorflow/keras3-based models in R from amino acid and 
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/ncborcherding/immApex/}
-  \item Report bugs at \url{https://github.com/ncborcherding/immApex/issues}
+  \item \url{https://github.com/BorchLab/immApex/}
+  \item Report bugs at \url{https://github.com/BorchLab/immApex/issues}
 }
 
 }
