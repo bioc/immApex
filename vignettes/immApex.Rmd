@@ -4,7 +4,7 @@ author:
 - name: Nick Borcherding
   email: ncborch@gmail.com
   affiliation: Washington University in St. Louis, School of Medicine, St. Louis, MO, USA
-date: "December 24th, 2024"
+date: "Feburary 25, 2025"
 output:
   BiocStyle::html_document:
     toc_float: true
@@ -23,10 +23,11 @@ set.seed(42)
 # Check Python modules once at the start
 keras_installed <- reticulate::py_module_available("keras")
 numpy_installed <- reticulate::py_module_available("numpy")
+keras3_installed <- packageVersion("keras3") < "1.2.0"
 
 # If not installed, skip evaluation of all subsequent chunks
 knitr::opts_chunk$set(
-  eval = keras_installed && numpy_installed
+  eval = keras_installed && numpy_installed && keras3_installed
 )
 ```
 
@@ -107,7 +108,7 @@ Parameters for ```variationalSequences()``
 *  **disable.eager.execution** Disable the eager execution parameter for tensorflow.
 *  **sequence.dictionary** The letters to use in sequence mutation (default are all amino acids)
 
-```{r tidy = FALSE, eval = reticulate::py_module_available("keras") && reticulate::py_module_available("numpy")}
+```{r tidy = FALSE}
 variational.sequences <- variationalSequences(sequences, 
                                               encoder = "onehotEncoder",
                                               number.of.sequences = 100,

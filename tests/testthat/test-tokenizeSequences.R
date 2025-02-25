@@ -6,7 +6,7 @@ numpy_installed <- reticulate::py_module_available("numpy")
 
 # 2. If not installed, skip everything:
 if (!keras_installed || !numpy_installed) {
-  test_that("Skipping generateSequences tests", {
+  test_that("Skipping tokenizeSequences tests", {
     skip("Required Python modules (Keras, NumPy) are not available.")
   })
 } else {
