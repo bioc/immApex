@@ -147,3 +147,5 @@ substring.extractor <- function(strings, motif.length) {
     aperm(tmp, rev(seq_along(dim)))
   }
 }
+
+

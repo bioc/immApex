@@ -1,6 +1,8 @@
-# immApex VERSION 1.2.2
+# immApex VERSION 1.2.3
 * Updated unit tests and vignette check
 * Converted package to basilisk from reticulate
+* Removed reticulate import of array reshape.
+* Refine ```variationalSequences()``` to use baslisk
 
 # immApex VERSION 1.2.0
 * Update version for BioConductor release

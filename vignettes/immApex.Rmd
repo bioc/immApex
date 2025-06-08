@@ -99,15 +99,19 @@ Parameters for ```variationalSequences()``
 *  **disable.eager.execution** Disable the eager execution parameter for tensorflow.
 *  **sequence.dictionary** The letters to use in sequence mutation (default are all amino acids)
 
-```{r tidy = FALSE}
-variational.sequences <- variationalSequences(sequences, 
-                                              encoder = "onehotEncoder",
-                                              number.of.sequences = 100,
-                                              encoder.hidden.dim = c(256, 128),
-                                              latent.dim = 16,
-                                              batch.size = 16, 
-                                              call.threshold = 0.1)
-head(variational.sequences)
+```{r tidy = FALSE, eval = FALSE}
+var.sequences <- variationalSequences(sequences, 
+                                      encoder.function = "onehotEncoder",
+                                      number.of.sequences = 100,
+                                      encoder.hidden.dim = c(256, 128),
+                                      latent.dim = 16,
+                                      batch.size = 16, 
+                                      call.threshold = 0.1)
+head(var.sequences)
+```
+
+```{r, include=FALSE}
+keras3::clear_session()
 ```
 
 ## mutateSequences
@@ -241,7 +245,6 @@ These properties are largely based on dimensional reduction strategies, but it i
 * VHSE - [citation](https://pubmed.ncbi.nlm.nih.gov/15895431/)
 * zScales - [citation](https://pubmed.ncbi.nlm.nih.gov/9651153/)
 
-
 ```{r tidy = FALSE}
 property.matrix <- propertyEncoder(input.sequences =  c(sequences, mutated.sequences), 
                                    method.to.use = "FASGAI",
@@ -250,7 +253,7 @@ property.matrix <- propertyEncoder(input.sequences =  c(sequences, mutated.seque
 head(property.matrix[,1:20])
 ```
 
-```propertyEncoder()``` also allows us to use multiple approaches simultaneously by setting **method.to.use** as a vector.
+``propertyEncoder()`` also allows us to use multiple approaches simultaneously by setting **method.to.use** as a vector.
 
 ```{r tidy = FALSE}
 mulit.property.matrix <- propertyEncoder(input.sequences =  c(sequences, mutated.sequences), 
@@ -497,6 +500,10 @@ plot(history) +
   theme_classic()
 ```
 
+```{r, include=FALSE}
+keras3::clear_session()
+```
+
 ## Classifier
 
 We can also build classifiers directly using deep or shallow neural networks. Building deep classifiers requires more data than classical machine learning methods, like random forests, so the vignette may not be ideal.
@@ -566,6 +573,10 @@ plot(history) +
 ```
 
 Here, we can achieve a validation accuracy of 98.25%, which is impressive. But to contextualize, we used ```generateSequences()``` and distinct motifs - "CAS" vs "CASF" to create our 2 classes of sequences. Using sequences from experimental data will likely result in lower accuracy or require greater model complexity.
+
+```{r, include=FALSE}
+keras3::clear_session()
+```
 
 ***
 
