@@ -3,7 +3,7 @@ immApexEnv <- BasiliskEnvironment(
   envname = "immApexEnv",
   pkgname = "immApex",
   packages = c(
-    "python=3.10",
+    "python=3.9",
     "pip=23.3.1",
     "setuptools=69.2.*",
     "wheel=0.42.*",

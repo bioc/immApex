@@ -2,7 +2,8 @@
 * Updated unit tests and vignette check
 * Converted package to basilisk from reticulate
 * Removed reticulate import of array reshape.
-* Refine ```variationalSequences()``` to use baslisk
+* Refine ```variationalSequences()``` to use basilisk
+* Ensuring python 3.9 is used
 
 # immApex VERSION 1.2.0
 * Update version for BioConductor release
