@@ -7,9 +7,10 @@ immApexEnv <- BasiliskEnvironment(
     "pip=23.3.1",
     "setuptools=69.2.*",
     "wheel=0.42.*",
-    "numpy=1.26", 
-    "h5py=3.10", 
-    "keras=3.3.*",
-    "tensorflow=2.16.*"
+    "numpy=1.26",
+    "h5py=3.10",
+    "keras=2.15.0",
+    "tensorflow=2.15.0",
+    "urllib3=1.26.20"
   )
 )

@@ -38,6 +38,7 @@ suppressMessages(library(ggplot2))
 suppressMessages(library(viridis))
 suppressMessages(library(magrittr))
 suppressMessages(library(tidygraph))
+suppressMessages(library(ggraph))
 ```
 
 # Getting and Manipulating Sequences
