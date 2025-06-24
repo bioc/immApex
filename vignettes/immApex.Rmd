@@ -111,7 +111,7 @@ var.sequences <- variationalSequences(sequences,
 head(var.sequences)
 ```
 
-```{r, include=FALSE}
+```{r, include=FALSE, eval = F}
 keras3::clear_session()
 ```
 
@@ -432,7 +432,7 @@ The steps to train the model include:
 3. Forming the autoencoder structure - encoder and decoder
 4. Fitting the model
 
-```{r tidy = FALSE}
+```{r tidy = FALSE, eval = FALSE}
 #Sampling to make Training/Validation Data Cohorts
 set.seed(42)
 num_sequences <- nrow(sequence.matrix)
@@ -501,7 +501,7 @@ plot(history) +
   theme_classic()
 ```
 
-```{r, include=FALSE}
+```{r, include=FALSE, eval = FALSE}
 keras3::clear_session()
 ```
 
@@ -532,7 +532,7 @@ classifier.matrix <- onehotEncoder(input.sequences =  c(class1.sequences, class2
 
 Next, we will define and train the Keras3 classifier model using artificial sequences. We will use a simple convolutional neural network with 2 layers and then a single neuron that will classify the sequences into class 1 or class 2 (here, the labels are 0 and 1).
 
-```{r tidy = FALSE}
+```{r tidy = FALSE, eval = FALSE}
 #Input shape will be 1D as we are using a matrix
 input.shape <- dim(classifier.matrix)[2]
 
@@ -575,7 +575,7 @@ plot(history) +
 
 Here, we can achieve a validation accuracy of 98.25%, which is impressive. But to contextualize, we used ```generateSequences()``` and distinct motifs - "CAS" vs "CASF" to create our 2 classes of sequences. Using sequences from experimental data will likely result in lower accuracy or require greater model complexity.
 
-```{r, include=FALSE}
+```{r, include=FALSE, eval = FALSE}
 keras3::clear_session()
 ```
 
