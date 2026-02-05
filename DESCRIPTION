@@ -2,7 +2,8 @@ Package: immApex
 Title: Tools for Adaptive Immune Receptor Sequence-Based Machine and Deep Learning
 Version: 1.4.4.9000
 Authors@R: c(
-    person(given = "Nick", family = "Borcherding", role = c("aut", "cre"), email = "ncborch@gmail.com"))
+    person(given = "Nick", family = "Borcherding", role = c("aut", "cre", "cph"), email = "ncborch@gmail.com"),
+	person(given = "Qile", family = "Yang", role = "ctb", email = "qile.yang@berkeley.edu", comment = c(ORCID = "0009-0005-0148-2499")))
 Description: A set of tools to for machine and deep learning in R from amino acid and nucleotide sequences focusing on adaptive immune receptors. The package includes pre-processing of sequences, unifying gene nomenclature usage, encoding sequences, and combining models. This package will serve as the basis of future immune receptor sequence functions/packages/models compatible with the scRepertoire ecosystem.
 License: MIT + file LICENSE 
 Encoding: UTF-8
@@ -11,7 +12,6 @@ biocViews: Software, ImmunoOncology, SingleCell, Classification, Annotation, Seq
 Depends: 
 	R (>= 4.3.0)
 Imports: 
-        hash,
 	httr,
 	Matrix,
 	matrixStats,
@@ -21,7 +21,7 @@ Imports:
 	SingleCellExperiment,
 	stats,
 	stringr,
-        utils
+    utils
 Suggests: 
 	BiocStyle,
 	dplyr,

@@ -1,6 +1,7 @@
 # immApex DEVELOPMENT VERSION
 
 - improved error message for the `propertyEncoder()` function when the suggested `Peptides` package is not installed.
+- remove `hash` package from required imports
 
 # immApex VERSION 1.4.4
 

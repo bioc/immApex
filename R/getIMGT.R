@@ -136,11 +136,7 @@ parse_sequences <- function(pre_text, chain, region, sequence.type) {
 
 #' @importFrom hash hash
 .parseSpecies <- function(x) {
-  species <- c("human", "mouse", "rat", "rabbit", "rhesus monkey", 
-               "sheep", "pig", "platypus", "alpaca", "dog", 
-               "chicken", "ferret")
-  
-  species_dictionary <- hash::hash(
+  species_mapping <- list(
     "human" = "Homo sapiens", 
     "mouse" = "Mus", 
     "rat" = "Rattus norvegicus", 
@@ -156,10 +152,10 @@ parse_sequences <- function(pre_text, chain, region, sequence.type) {
   )
   
   x <- tolower(x)
-  if (x %in% species) {
-    return(species_dictionary[[x]])
+  if (x %in% names(species_mapping)) {
+    return(species_mapping[[x]])
   } else {
     stop(sprintf("Invalid species. Choose one of: %s", 
-                 paste(species, collapse = ", ")))
+                 paste(names(species_mapping), collapse = ", ")))
   }
 }
