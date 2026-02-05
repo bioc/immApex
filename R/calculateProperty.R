@@ -124,7 +124,9 @@ calculateProperty <- function(input.sequences,
   if (exists(key, envir = .builtin_scales, inherits = FALSE))
     return(.builtin_scales[[key]])
   
-  if (requireNamespace("Peptides", quietly = TRUE)) {
+  has_peptides <- requireNamespace("Peptides", quietly = TRUE)
+  
+  if (has_peptides) {
     acc <- utils::getFromNamespace("AAdata", "Peptides")  
     if (key %in% names(acc)) {
       v <- do.call(rbind, acc[[key]])
@@ -132,9 +134,14 @@ calculateProperty <- function(input.sequences,
     }
   }
   
-  stop("Unknown property set: '", key, "'. ",
-       "Use one of the built-ins, ",
-       "or supply a custom numeric matrix.")
+  if (!has_peptides) {
+    stop("Property set '", key, "' not found in built-in scales. ",
+         "Additional property sets are available via the 'Peptides' CRAN package. ",
+         "Install it with: install.packages('Peptides')")
+  } else {
+    stop("Unknown property set: '", key, "'. ",
+         "Use one of the built-in scales or a custom numeric matrix.")
+  }
 }
 
 .builtin_scales <- new.env(parent = emptyenv())
