@@ -1,3 +1,7 @@
+# immApex DEVELOPMENT VERSION
+
+- improved error message for the `propertyEncoder()` function when the suggested `Peptides` package is not installed.
+
 # immApex VERSION 1.4.4
 
 ## BUGS
