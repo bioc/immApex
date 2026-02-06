@@ -38,9 +38,17 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install("immApex")
 ```
 
+#### Installing immReferent
+
+immApex requires [immReferent](https://github.com/BorchLab/immReferent) for IMGT reference sequence access. immReferent will be available via Bioconductor in the next release. Until then, install it from GitHub:
+
+```r
+devtools::install_github("BorchLab/immReferent")
+```
+
 #### IMGT usage
 
-IMGT is used as a reference for gene names and sequence information can be accessed via ```getIMGT()```. Data from IMGT is under a CC BY-NC-ND 4.0 license. Please be aware that attribution is required for usage and it is the intent of IMGT to not allow derivative or commercial usage. 
+IMGT is used as a reference for gene names and sequence information can be accessed via ```getIMGT()```, which uses [immReferent](https://github.com/BorchLab/immReferent) for downloading and locally caching reference sequences. Data from IMGT is under a CC BY-NC-ND 4.0 license. Please be aware that attribution is required for usage and it is the intent of IMGT to not allow derivative or commercial usage.
 
 ### Usage/Demos
 

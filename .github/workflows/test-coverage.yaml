@@ -28,6 +28,12 @@ jobs:
           extra-packages: any::covr, any::xml2, rcmdcheck
           needs: coverage
 
+      - name: Install immReferent from GitHub
+        run: |
+          install.packages("remotes")
+          remotes::install_github("BorchLab/immReferent")
+        shell: Rscript {0}
+
       - name: Test coverage
         run: |
           cov <- covr::package_coverage(

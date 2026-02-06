@@ -1,3 +1,20 @@
+# immApex VERSION 1.5.3
+
+## UNDERLYING CHANGES
+* `getIMGT()` now uses [immReferent](https://github.com/BorchLab/immReferent) as a backend for downloading and caching IMGT reference sequences
+* Removed `frame`, `max.retries`, and `verbose` parameters from `getIMGT()`
+* Added `refresh` parameter to `getIMGT()` for controlling cache behavior
+* Removed `hash`, `httr`, and `rvest` package dependencies (now handled by immReferent)
+* Replaced `.parseSpecies()` with `.mapSpecies()` for immReferent species name compatibility
+
+# immApex VERSION 1.5.2
+
+- improved error message for the `propertyEncoder()` function when the suggested `Peptides` package is not installed.
+
+# immApex VERSION 1.5.0
+
+- Bioconductor devel branch update to match versions
+
 # immApex VERSION 1.4.3
 
 ## NEW FEATURES

@@ -8,10 +8,8 @@ getIMGT(
   species = "human",
   chain = "TRB",
   sequence.type = "aa",
-  frame = "inframe",
   region = "v",
-  max.retries = 3,
-  verbose = TRUE
+  refresh = FALSE
 )
 }
 \arguments{
@@ -19,32 +17,33 @@ getIMGT(
 
 \item{chain}{Sequence chain to access, e.g., \strong{TRB} or \strong{IGH}.}
 
-\item{sequence.type}{Type of sequence - \strong{aa} (amino acid) or \strong{nt} (nucleotide).}
+\item{sequence.type}{Type of sequence - \strong{aa} (amino acid) or
+\strong{nt} (nucleotide).}
 
-\item{frame}{Designation for \strong{all}, \strong{inframe}, or \strong{inframe+gap}.}
+\item{region}{Gene loci to access - \strong{v}, \strong{d}, \strong{j},
+or \strong{c}.}
 
-\item{region}{Gene loci to access.}
-
-\item{max.retries}{Number of attempts to fetch data in case of failure.}
-
-\item{verbose}{Print messages corresponding to the processing step.}
+\item{refresh}{Logical. If \code{TRUE}, forces a re-download of the
+data even if cached locally. Default is \code{FALSE}.}
 }
 \value{
-A list of allele sequences.
+A list containing \code{sequences} (a named list of allele
+sequences) and \code{misc} (metadata including species, chain,
+sequence.type, and region).
 }
 \description{
 Use this to access the ImMunoGeneTics (IMGT) sequences for a
-specific species and gene loci. More information on 
+specific species and gene loci via the
+\href{https://github.com/BorchLab/immReferent}{immReferent} package,
+which provides automatic local caching. More information on
 IMGT can be found at \href{https://www.imgt.org/}{imgt.org}.
 }
 \examples{
 \dontrun{
 TRBV_aa <- getIMGT(species = "human",
                    chain = "TRB",
-                   frame = "inframe",
                    region = "v",
-                   sequence.type = "aa", 
-                   max.retries = 3) 
+                   sequence.type = "aa")
 }
 
 }

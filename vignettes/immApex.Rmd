@@ -46,43 +46,26 @@ suppressMessages(library(ggraph))
 
 ## getIMGT
 
-Depending on the sequencing technology and the version, we might want to expand the length of our sequence embedding approach. The first step in the process is pulling the reference sequences from the ImMunoGeneTics (IMGT) system using ```getIMGT()```. More information for IMGT can be found at [imgt.org](https://www.imgt.org/). Data from IMGT is under a CC BY-NC-ND 4.0 license. Please be aware that attribution is required for usage and should not be used to create commercial or derivative work. 
+Depending on the sequencing technology and the version, we might want to expand the length of our sequence embedding approach. The first step in the process is pulling the reference sequences from the ImMunoGeneTics (IMGT) system using ```getIMGT()```, which uses [immReferent](https://github.com/BorchLab/immReferent) for downloading and locally caching reference sequences. More information for IMGT can be found at [imgt.org](https://www.imgt.org/). Data from IMGT is under a CC BY-NC-ND 4.0 license. Please be aware that attribution is required for usage and should not be used to create commercial or derivative work.
 
 Parameters for ```getIMGT()```
 
-* **species** One or two word designation of species. Currently supporting: "human", "mouse", "rat", "rabbit", "rhesus monkey", "sheep", "pig", "platypus", "alpaca", "dog", "chicken", and "ferret"
+* **species** One or two word designation of species. Currently supporting: "human", "mouse", "rat", "rabbit", "rhesus monkey", "pig", "dog", "cyno monkey"
 * **chain** Sequence chain to access
-* **frame** Designation for "all", "inframe" or "inframe+gap"
 * **region** Sequence gene loci to access
 * **sequence.type** Type of sequence - "aa" for amino acid or "nt" for nucleotide
+* **refresh** If TRUE, forces a re-download even if data is cached locally
 
 Here, we will use the ```getIMGT()``` function to get the amino acid sequences for the TRBV region to get all the sequences by V gene allele.
 
 ```{r}
-# Function to check IMGT website availability
-is_imgt_available <- function() {
-  tryCatch({
-    r <- httr::HEAD("https://www.imgt.org", httr::timeout(5))
-    httr::status_code(r) == 200
-  }, error = function(e) {
-    FALSE
-  })
-}
+TRBV_aa <- getIMGT(species = "human",
+                   chain = "TRB",
+                   region = "v",
+                   sequence.type = "aa")
 
-# Run getIMGT only if the website is available
-if (is_imgt_available()) {
-  TRBV_aa <- getIMGT(species = "human",
-                     chain = "TRB",
-                     frame = "inframe",
-                     region = "v",
-                     sequence.type = "aa")
-
-  # Display first sequence as an example
-  TRBV_aa[[1]][1]
-} else {
-  # Display a message if IMGT is not available
-  "IMGT website is not accessible at the moment."
-}
+# Display first sequence as an example
+TRBV_aa[[1]][1]
 ```
 
 ## formatGenes
@@ -122,19 +105,14 @@ Parameters for ```inferCDR```
 * **sequences** The specific regions of the CDR loop to get from the data.
 
 ```{r}
-if (is_imgt_available()) {
-  Adaptive_example <- inferCDR(Adaptive_example,
-                               chain = "TRB", 
-                               reference = TRBV_aa,
-                               technology = "Adaptive", 
-                               sequence.type = "aa",
-                               sequences = c("CDR1", "CDR2"))
-  
-  Adaptive_example[200:210,c("CDR1_IMGT", "CDR2_IMGT")]
-} else {
-  # Display a message if IMGT is not available
-  "IMGT website is not accessible at the moment."
-}
+Adaptive_example <- inferCDR(Adaptive_example,
+                             chain = "TRB",
+                             reference = TRBV_aa,
+                             technology = "Adaptive",
+                             sequence.type = "aa",
+                             sequences = c("CDR1", "CDR2"))
+
+Adaptive_example[200:210,c("CDR1_IMGT", "CDR2_IMGT")]
 ```
 
 # Generating and Augmenting Sequence Sets

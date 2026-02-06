@@ -47,9 +47,8 @@ sequence is used.
 data(immapex_example.data)
 TRBV_aa <- getIMGT(species = "human",
                    chain = "TRB",
-                   frame = "inframe",
                    region = "v",
-                   sequence.type = "aa") 
+                   sequence.type = "aa")
                     
 # Ensuring sequences are formatted to IMGT                   
 TenX_formatted <- formatGenes(immapex_example.data[["TenX"]],
