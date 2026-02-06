@@ -6,6 +6,7 @@ BLOSUM
 BLOck
 BioC
 BioConductor
+Bioc
 BiocCheck
 Biotechnologies
 CDR
@@ -29,6 +30,7 @@ Levenshtein
 MSWHIM
 Needleman
 Normalised
+ORCID
 OTU
 Omniscope
 OpenMP
