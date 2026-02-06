@@ -1,3 +1,16 @@
+# immApex VERSION 1.5.2
+
+- improved error message for the `propertyEncoder()` function when the suggested `Peptides` package is not installed.
+
+# immApex VERSION 1.5.0
+
+- Bioconductor devel branch update to match versions
+
+# immApex VERSION 1.4.4
+
+## BUGS
+* Fixed `buildNetworks()` issue that aggregates similarity for duplicated sequences. 
+
 # immApex VERSION 1.4.3
 
 ## NEW FEATURES
