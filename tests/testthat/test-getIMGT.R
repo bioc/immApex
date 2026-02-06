@@ -1,74 +1,62 @@
 # test script for getIMGT.R - testcases are NOT comprehensive!
 
-is_imgt_available <- function() {
-  # Return TRUE if accessible, FALSE if not
-  tryCatch({
-    r <- httr::HEAD("https://www.imgt.org")
-    httr::status_code(r) == 200
-  }, error = function(e) {
-    FALSE
-  })
-}
+test_that("getIMGT returns expected structure for amino acid sequences", {
+  TRBV_human_aa <- getIMGT(species = "human",
+                            chain = "TRB",
+                            region = "v",
+                            sequence.type = "aa")
 
-test_that("getIMGT works when IMGT website is available", {
-  if (!is_imgt_available()) {
-    skip("IMGT website is not accessible; skipping these tests.")
-  }
-  
-  # Default Test
-  TRBV_human_inframe_aa <- getIMGT(species = "human",
-                                   chain = "TRB",
-                                   frame = "inframe",
-                                   region = "v",
-                                   sequence.type = "aa") 
-  
-  # Test Different Region and Species
-  TRAJ_mouse_inframe_aa <- getIMGT(species = "mouse",
-                                   chain = "TRB",
-                                   frame = "inframe",
-                                   region = "j",
-                                   sequence.type = "aa") 
-  expect_equal(
-    TRAJ_mouse_inframe_aa,
-    getdata("getIMGT", "getIMGT_TRAJ_mouse_inframe_aa")
-  )
-  
-  # Test All Sequence Pull
-  IGHV_rat_all_nt <- getIMGT(species = "rat",
-                             chain = "IGH",
-                             frame = "all",
+  expect_type(TRBV_human_aa, "list")
+  expect_true("sequences" %in% names(TRBV_human_aa))
+  expect_true("misc" %in% names(TRBV_human_aa))
+  expect_true(length(TRBV_human_aa$sequences) > 0)
+  expect_equal(TRBV_human_aa$misc$chain, "TRB")
+  expect_equal(TRBV_human_aa$misc$region, "v")
+  expect_equal(TRBV_human_aa$misc$sequence.type, "aa")
+})
+
+test_that("getIMGT works with different regions and species", {
+  TRBJ_mouse_nt <- getIMGT(species = "mouse",
+                            chain = "TRB",
+                            region = "j",
+                            sequence.type = "nt")
+
+  expect_type(TRBJ_mouse_nt, "list")
+  expect_true(length(TRBJ_mouse_nt$sequences) > 0)
+  expect_equal(TRBJ_mouse_nt$misc$region, "j")
+})
+
+test_that("getIMGT works with nucleotide sequences", {
+  IGHV_rat_nt <- getIMGT(species = "rat",
+                          chain = "IGH",
+                          region = "v",
+                          sequence.type = "nt")
+
+  expect_type(IGHV_rat_nt, "list")
+  expect_true(length(IGHV_rat_nt$sequences) > 0)
+  expect_equal(IGHV_rat_nt$misc$sequence.type, "nt")
+})
+
+test_that("getIMGT works with additional species", {
+  TRBV_rabbit_aa <- getIMGT(species = "rabbit",
+                             chain = "TRB",
                              region = "v",
-                             sequence.type = "nt") 
-  expect_equal(
-    IGHV_rat_all_nt,
-    getdata("getIMGT", "getIMGT_IGHV_rat_all_nt")
-  )
-  
-  # Test IMGT Gap Sequence Pull
-  TRBV_rabbit_gap_aa <- getIMGT(species = "rabbit",
-                                chain = "TRB",
-                                frame = "inframe+gap",
-                                region = "v",
-                                sequence.type = "aa") 
-  expect_equal(
-    TRBV_rabbit_gap_aa,
-    getdata("getIMGT", "getIMGT_TRBV_rabbit_gap_aa")
-  )
-  
-  TRAJ_pig_inframe_aa <- getIMGT(species = "pig",
-                                 chain = "TRA",
-                                 frame = "inframe",
-                                 region = "v",
-                                 sequence.type = "aa") 
-  expect_equal(
-    TRAJ_pig_inframe_aa,
-    getdata("getIMGT", "getIMGT_TRAJ_pig_inframe_aa")
-  )
-  
-  # Tests for the .parseSpecies() helper
-  expect_equal(.parseSpecies("ferret"),         "Mustela putorius furo")
-  expect_equal(.parseSpecies("Ferret"),         "Mustela putorius furo")
-  expect_equal(.parseSpecies("rhesus monkey"),  "Macaca mulatta")
-  expect_equal(.parseSpecies("Rhesus monkey"),  "Macaca mulatta")
-  expect_equal(.parseSpecies("rhesus Monkey"),  "Macaca mulatta")
+                             sequence.type = "aa")
+
+  expect_type(TRBV_rabbit_aa, "list")
+  expect_true(length(TRBV_rabbit_aa$sequences) > 0)
+})
+
+test_that("getIMGT input validation works", {
+  expect_error(getIMGT(region = "x"), "Invalid region")
+  expect_error(getIMGT(sequence.type = "protein"), "Invalid sequence.type")
+})
+
+test_that(".mapSpecies maps correctly", {
+  expect_equal(.mapSpecies("human"), "human")
+  expect_equal(.mapSpecies("Human"), "human")
+  expect_equal(.mapSpecies("rhesus monkey"), "rhesus_monkey")
+  expect_equal(.mapSpecies("Rhesus monkey"), "rhesus_monkey")
+  expect_equal(.mapSpecies("rhesus Monkey"), "rhesus_monkey")
+  expect_error(.mapSpecies("platypus"), "Invalid species")
 })
