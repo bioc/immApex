@@ -1,0 +1,65 @@
+name: Create GitHub Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+  create:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: >
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v'))
+      || (github.event_name == 'create' && github.ref_type == 'branch'
+          && startsWith(github.ref, 'refs/heads/RELEASE_3_'))
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine version
+        id: version
+        run: |
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            TAG="${GITHUB_REF#refs/tags/v}"
+            echo "version=$TAG" >> "$GITHUB_OUTPUT"
+            echo "tag_name=v$TAG" >> "$GITHUB_OUTPUT"
+          else
+            VERSION=$(grep "^Version:" DESCRIPTION | sed 's/Version: //')
+            echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+            echo "tag_name=v$VERSION" >> "$GITHUB_OUTPUT"
+            git tag "v$VERSION"
+            git push origin "v$VERSION"
+          fi
+
+      - name: Extract release notes from NEWS.md
+        id: notes
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          awk -v ver="$VERSION" '
+            /^# immApex VERSION / {
+              if (found) exit
+              if (index($0, ver)) { found=1; next }
+            }
+            found { print }
+          ' NEWS.md > release_notes.md
+
+          if [ ! -s release_notes.md ]; then
+            echo "Release of immApex version $VERSION." > release_notes.md
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag_name }}
+          name: "immApex ${{ steps.version.outputs.version }}"
+          body_path: release_notes.md
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
