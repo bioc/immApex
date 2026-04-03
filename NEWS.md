@@ -1,4 +1,10 @@
- # immApex VERSION 1.5.3
+ # immApex VERSION 1.5.4
+
+## BUG FIXES
+* Fixed vignette build failure when IMGT network data is unavailable (e.g., on Bioconductor build servers)
+* Fixed operator precedence bug in `inferCDR()` reference validation check
+
+# immApex VERSION 1.5.3
 
 ## UNDERLYING CHANGES
 * `getIMGT()` now uses [immReferent](https://github.com/BorchLab/immReferent) as a backend for downloading and caching IMGT reference sequences

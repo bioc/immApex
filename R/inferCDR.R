@@ -56,7 +56,7 @@ inferCDR <- function(input.data,
   technology    <- match.arg(technology)
   
   if (is.null(reference) ||
-      !"v" %in% reference[["misc"]][["region"]])
+      !("v" %in% reference[["misc"]][["region"]]))
     stop("`reference` must be a V-gene list from getIMGT().")
   
   if (reference[["misc"]][["sequence.type"]] != sequence.type)

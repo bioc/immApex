@@ -63,9 +63,10 @@ TRBV_aa <- getIMGT(species = "human",
                    chain = "TRB",
                    region = "v",
                    sequence.type = "aa")
+has_IMGT <- !is.null(TRBV_aa)
 
 # Display first sequence as an example
-TRBV_aa[[1]][1]
+if (has_IMGT) TRBV_aa[[1]][1]
 ```
 
 ## formatGenes
@@ -104,7 +105,7 @@ Parameters for ```inferCDR```
 * **sequence.type** Type of sequence - "aa" for amino acid or "nt" for nucleotide
 * **sequences** The specific regions of the CDR loop to get from the data.
 
-```{r}
+```{r, eval=has_IMGT}
 Adaptive_example <- inferCDR(Adaptive_example,
                              chain = "TRB",
                              reference = TRBV_aa,
