@@ -9,7 +9,7 @@ API for single-cell immune repertoire deep learning models
 [![Bioc Downloads](http://www.bioconductor.org/shields/downloads/release/immApex.svg)](http://bioconductor.org/packages/stats/bioc/immApex/)
 <!-- badges: end -->
 
-<img align="right" src="https://github.com/BorchLab/immApex/blob/main/www/immApex_hex.png" width="305" height="352">
+<img align="right" src="https://github.com/BorchLab/immApex/blob/devel/www/immApex_hex.png" width="305" height="352">
 
 ### Introduction
 
