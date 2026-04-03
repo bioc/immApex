@@ -1,4 +1,4 @@
-# immApex VERSION 1.5.3
+ # immApex VERSION 1.5.3
 
 ## UNDERLYING CHANGES
 * `getIMGT()` now uses [immReferent](https://github.com/BorchLab/immReferent) as a backend for downloading and caching IMGT reference sequences
