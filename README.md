@@ -67,3 +67,11 @@ Check out this [vignette](https://www.borch.dev/uploads/screpertoire/articles/im
 #### Any requests for new features or enhancements can also be submitted as [GitHub issues](https://github.com/BorchLab/immApex/issues).
 
 #### [Pull Requests](https://github.com/BorchLab/immApex/pulls) are welcome for bug fixes, new features, or enhancements.
+
+## Citation
+
+If you use immApex in your work, please cite:
+
+Borcherding N, et al. (2026). Pre-transplant TCR Network Topology Predicts Kidney Allograft Rejection Independent of HLA Mismatch. *bioRxiv*. doi: [10.64898/2026.05.04.722749](https://doi.org/10.64898/2026.05.04.722749)
+
+
