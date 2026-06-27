@@ -21,6 +21,14 @@
 #' `data.frame` **or** a symmetric `Matrix::dgCMatrix` adjacency matrix.
 #' @param weight `"dist"` (store the edit distance) **or** `"binary"`
 #' (all edges get weight 1). Ignored when `output = "edges"`.
+#' @param expand How identical sequences (and groups of related sequences) are
+#' expanded into edges. `"clique"` (default) materializes every pairwise edge,
+#' reproducing the exact edge multiplicity expected by community-detection
+#' clustering. `"star"` links each set of identical sequences through a single
+#' hub and connects related groups hub-to-hub. `"star"` produces far fewer edges
+#' (a large memory win on clonally expanded repertoires) and preserves connected
+#' components exactly, but changes edge multiplicity, so use it only when the
+#' downstream step depends on connectivity rather than weighted degree.
 #' @param dist_type Character string specifying the distance metric to use:
 #'  \itemize{
 #'    \item{`"levenshtein"`}  - Standard edit distance (default, backward compatible)
@@ -114,11 +122,13 @@ buildNetwork <- function(input.data        = NULL,
                          filter.j          = FALSE,
                          ids               = NULL,
                          output            = c("edges", "sparse"),
-                         weight            = c("dist", "binary")) {
-  
+                         weight            = c("dist", "binary"),
+                         expand            = c("clique", "star")) {
+
   output    <- match.arg(output)
   weight    <- match.arg(weight)
   normalize <- match.arg(normalize) # Validate input
+  expand    <- match.arg(expand)
   
   ## 1. Decide where sequences come from 
   if (is.null(input.data)) {
@@ -192,35 +202,42 @@ buildNetwork <- function(input.data        = NULL,
     numeric_mat <- .fetch.matrix(dist_mat)
   }
   
-  ## 5. Call the C++ engine 
-  edge_df  <- fast_edge_list(
+  # Node labels: explicit `ids`, else row-names / positional (matches the
+  # former C++ default of "1".."n" for the bare-sequence path).
+  if (is.null(ids)) ids <- as.character(seq_len(n))
+
+  ## 5. Call the C++ engine
+  raw  <- fast_edge_list(
     seqs         = seq_vec,
     thresh       = threshold,
     v_gene       = v_vec,
     j_gene       = j_vec,
     match_v      = filter.v,
     match_j      = filter.j,
-    ids          = ids,
     metric       = dist_type,
     subst_matrix = numeric_mat,
     gap_open     = gap_open,
     gap_extend   = gap_extend,
-    normalize    = normalize  
+    normalize    = normalize,
+    expand       = expand
   )
-  
-  # Remove Duplicate Edges
-  if (nrow(edge_df) > 0) {
-    edge_key <- paste(
-      pmin(edge_df$from, edge_df$to),
-      pmax(edge_df$from, edge_df$to),
-      sep = "\t"
-    )
-    
-    # Check if there are duplicates
-    if (anyDuplicated(edge_key)) {
-      agg_idx <- !duplicated(edge_key)
-      edge_df <- edge_df[agg_idx, , drop = FALSE]
-    }
+
+  # The engine returns 0-based node indices; attach the labels here so the
+  # millions of barcode strings are never materialized inside the parallel core.
+  edge_df <- data.frame(
+    from = ids[raw$i + 1L],
+    to   = ids[raw$k + 1L],
+    dist = raw$dist,
+    stringsAsFactors = FALSE
+  )
+
+  # The engine emits each unordered node pair exactly once, so duplicate edges
+  # can only appear when non-unique `ids` collapse distinct nodes onto the same
+  # label. Skip the (otherwise wasteful) key build unless that is the case.
+  if (nrow(edge_df) > 0 && anyDuplicated(ids)) {
+    edge_key <- paste(pmin(edge_df$from, edge_df$to),
+                      pmax(edge_df$from, edge_df$to), sep = "\t")
+    edge_df <- edge_df[!duplicated(edge_key), , drop = FALSE]
   }
   
   if (output == "edges")

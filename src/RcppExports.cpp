@@ -44,8 +44,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // fast_edge_list
-DataFrame fast_edge_list(CharacterVector seqs, double thresh, Nullable<CharacterVector> v_gene, Nullable<CharacterVector> j_gene, bool match_v, bool match_j, Nullable<CharacterVector> ids, std::string metric, std::string normalize, Nullable<NumericMatrix> subst_matrix, int gap_open, int gap_extend);
-RcppExport SEXP _immApex_fast_edge_list(SEXP seqsSEXP, SEXP threshSEXP, SEXP v_geneSEXP, SEXP j_geneSEXP, SEXP match_vSEXP, SEXP match_jSEXP, SEXP idsSEXP, SEXP metricSEXP, SEXP normalizeSEXP, SEXP subst_matrixSEXP, SEXP gap_openSEXP, SEXP gap_extendSEXP) {
+DataFrame fast_edge_list(CharacterVector seqs, double thresh, Nullable<CharacterVector> v_gene, Nullable<CharacterVector> j_gene, bool match_v, bool match_j, std::string metric, std::string normalize, Nullable<NumericMatrix> subst_matrix, int gap_open, int gap_extend, std::string expand);
+RcppExport SEXP _immApex_fast_edge_list(SEXP seqsSEXP, SEXP threshSEXP, SEXP v_geneSEXP, SEXP j_geneSEXP, SEXP match_vSEXP, SEXP match_jSEXP, SEXP metricSEXP, SEXP normalizeSEXP, SEXP subst_matrixSEXP, SEXP gap_openSEXP, SEXP gap_extendSEXP, SEXP expandSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -55,13 +55,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Nullable<CharacterVector> >::type j_gene(j_geneSEXP);
     Rcpp::traits::input_parameter< bool >::type match_v(match_vSEXP);
     Rcpp::traits::input_parameter< bool >::type match_j(match_jSEXP);
-    Rcpp::traits::input_parameter< Nullable<CharacterVector> >::type ids(idsSEXP);
     Rcpp::traits::input_parameter< std::string >::type metric(metricSEXP);
     Rcpp::traits::input_parameter< std::string >::type normalize(normalizeSEXP);
     Rcpp::traits::input_parameter< Nullable<NumericMatrix> >::type subst_matrix(subst_matrixSEXP);
     Rcpp::traits::input_parameter< int >::type gap_open(gap_openSEXP);
     Rcpp::traits::input_parameter< int >::type gap_extend(gap_extendSEXP);
-    rcpp_result_gen = Rcpp::wrap(fast_edge_list(seqs, thresh, v_gene, j_gene, match_v, match_j, ids, metric, normalize, subst_matrix, gap_open, gap_extend));
+    Rcpp::traits::input_parameter< std::string >::type expand(expandSEXP);
+    rcpp_result_gen = Rcpp::wrap(fast_edge_list(seqs, thresh, v_gene, j_gene, match_v, match_j, metric, normalize, subst_matrix, gap_open, gap_extend, expand));
     return rcpp_result_gen;
 END_RCPP
 }
