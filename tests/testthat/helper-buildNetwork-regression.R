@@ -20,9 +20,11 @@
     a <- pmin(res$from, res$to)
     b <- pmax(res$from, res$to)
     # %.12g round-trips the integer and normalized doubles exactly while
-    # staying robust to trivial formatting noise.
+    # staying robust to trivial formatting noise. method = "radix" sorts in
+    # byte order, so the canonical form does not depend on LC_COLLATE (the
+    # golden was generated under one locale and R CMD check runs under C).
     key <- paste(a, b, sprintf("%.12g", res$dist), sep = "\031")
-    sort(key)
+    sort(key, method = "radix")
   } else if (inherits(res, "dgCMatrix")) {
     res <- methods::as(res, "TsparseMatrix")
     nm <- rownames(res)
@@ -31,7 +33,7 @@
     a <- pmin(fr, to)
     b <- pmax(fr, to)
     key <- paste(a, b, sprintf("%.12g", res@x), sep = "\031")
-    sort(unique(key))
+    sort(unique(key), method = "radix")
   } else {
     stop("Unexpected buildNetwork result class: ", class(res)[1])
   }

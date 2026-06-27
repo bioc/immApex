@@ -23,11 +23,14 @@ test_that("buildNetwork reproduces frozen golden edge sets (clique mode)", {
     got <- tryCatch(
       suppressMessages(.bn_run(sc$datasets, scen, extra)),
       error = function(e) paste0("ERROR:", conditionMessage(e)))
-    if (!identical(got, g$set)) {
+    # Compare as SETS. The contract is the edge set, not row order, so a
+    # difference in collation order (e.g. C locale under R CMD check vs the
+    # locale the golden was built in) must not register as a failure.
+    only_new <- setdiff(got, g$set)
+    only_old <- setdiff(g$set, got)
+    if (length(only_new) || length(only_old)) {
       lab <- sprintf("[%d] %s {%s}", i, g$data,
                      paste(names(scen$args), unlist(scen$args), sep = "=", collapse = ", "))
-      only_new <- setdiff(got, g$set)
-      only_old <- setdiff(g$set, got)
       fails <- c(fails, sprintf("%s  +%d/-%d", lab, length(only_new), length(only_old)))
     }
   }
