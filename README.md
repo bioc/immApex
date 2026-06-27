@@ -29,7 +29,7 @@ To run immApex, open R and install immApex from github:
 devtools::install_github("BorchLab/immApex")
 ```
 
-or via Bioconductor with the 3.20 release
+or via Bioconductor with:
 
 ```r
 if (!require("BiocManager", quietly = TRUE))
