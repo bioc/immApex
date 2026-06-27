@@ -20,7 +20,8 @@ buildNetwork(
   filter.j = FALSE,
   ids = NULL,
   output = c("edges", "sparse"),
-  weight = c("dist", "binary")
+  weight = c("dist", "binary"),
+  expand = c("clique", "star")
 )
 }
 \arguments{
@@ -86,6 +87,15 @@ Only used when `metric` is "nw" or "sw".}
 
 \item{weight}{`"dist"` (store the edit distance) **or** `"binary"`
 (all edges get weight 1). Ignored when `output = "edges"`.}
+
+\item{expand}{How identical sequences (and groups of related sequences) are
+expanded into edges. `"clique"` (default) materializes every pairwise edge,
+reproducing the exact edge multiplicity expected by community-detection
+clustering. `"star"` links each set of identical sequences through a single
+hub and connects related groups hub-to-hub. `"star"` produces far fewer edges
+(a large memory win on clonally expanded repertoires) and preserves connected
+components exactly, but changes edge multiplicity, so use it only when the
+downstream step depends on connectivity rather than weighted degree.}
 }
 \value{
 edge-list `data.frame` **or** sparse adjacency `dgCMatrix` of distances

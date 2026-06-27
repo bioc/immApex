@@ -1,3 +1,22 @@
+# immApex VERSION 1.7.1
+
+## PERFORMANCE
+`buildNetwork()` now scales to large, clonally expanded repertoires. The C++ engine was rewritten around candidate generation instead of all-pairs comparison, with no new dependencies and identical edge output for the default settings:
+
+* Identical sequences collapse to one representative before any distance is computed, so clonal expansion no longer drives quadratic work.
+* Length and V/J blocking act as an index. Only length-compatible representatives in the same block are compared.
+* Levenshtein and Damerau use deletion-neighborhood (SymSpell) hashing for small edit distances, with Damerau indexed at radius `2k`. Hamming uses pigeonhole segment indexing. Both fall back to length-blocked comparison outside their range.
+* Edges accumulate as integer node indices and gain their labels in R, which avoids building millions of barcode strings inside the parallel core.
+
+Speedups range from roughly 2x on mixed repertoires with many V genes to about 70x when one block holds many unique sequences at a tight threshold.
+
+## NEW FEATURES
+* Added the `expand` argument to `buildNetwork()`. `"clique"` (default) materializes every pairwise edge and reproduces the exact edge multiplicity that community-detection clustering expects. `"star"` links identical sequences through a single hub and connects related groups hub to hub. `"star"` produces far fewer edges and preserves connected components exactly, so it is a large memory win when the downstream step depends on connectivity.
+
+## BUG FIXES
+* Fixed a banded Levenshtein error that dropped pairs whose only optimal alignment rides the band edge, including identical sequences at a tight normalized threshold. The boundary cell read the wrong diagonal value. The fix only recovers true edges and never removes valid ones.
+* Made the normalized-threshold cutoff robust to floating-point rounding so a normalized distance exactly equal to the threshold is kept, matching the documented inclusive behavior.
+
  # immApex VERSION 1.5.4
 
 ## BUG FIXES
